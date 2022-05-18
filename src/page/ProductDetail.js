@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col} from 'react-bootstrap';
 import { Button , ButtonGroup, Dropdown, DropdownButton} from 'react-bootstrap';
+import { productAction } from '../redux/actions/productAction';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const ProductDetail = () => {
+  const product = useSelector((state) => (state.product.product));
   let {id} = useParams() // useParams(객체) url뒤에 링크들이 12/14/5 라고 했을때 객체를 다 가져올탠데
-  const [product, setProduct] = useState(null)
-  const getProductDetail = async() => {
+  const dispatch = useDispatch()
+  const getProductDetail = () => {
 // api 호출
-    let url =`https://my-json-server.typicode.com/taehhh8/HnMClone/products/${id}`;
-    let response = await fetch(url)
-    let data = await response.json()
-    console.log(data);
-    setProduct(data);
+    dispatch(productAction.getProductDetail(id))
+
+    // dispatch(productAction.getProducts()) 
   }
   useEffect(()=>{
     getProductDetail()
